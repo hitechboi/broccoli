@@ -43,6 +43,8 @@ local rangeVal = 1500
 local destroyed = false
 local isDead = false
 
+local AR_NAMES = {["AK-47"]=true, ["MP5"]=true, ["FAL"]=true, ["M4A1"]=true}
+
 local lp = game.Players.LocalPlayer
 local Humanoid = nil
 
@@ -60,7 +62,15 @@ local ATTRS = {
     MaxAmmo     = function() return infiniteAmmo and ammoVal end,
     CurrentAmmo = function() return infiniteAmmo and ammoVal end,
     ReloadTime  = function() return instantReload and reloadVal end,
-    FireRate    = function() return instantFire and 0.001 or fastFire and fireRateVal end,
+    FireRate    = function(tool)
+        -- AR instant fire takes priority, exclude ARs from regular fire rate
+        if instantFire then return 0.001 end
+        if fastFire then
+            if arInstantFire and AR_NAMES[tool.Name] then return nil end
+            return fireRateVal
+        end
+        return nil
+    end,
     Range       = function() return extendRange and rangeVal end,
 }
 
@@ -100,7 +110,7 @@ main:Toggle("Enabled", false, function(s) enabled = s end, "Master toggle for al
 guns:Div("FIRE", true)
 guns:Toggle("Apply Reload", false, function(s) instantReload = s end, "Toggles Reload Slider(M9 Only)")
 guns:Slider("Reload Time", 0.01, 5.0, 0.01, function(v) reloadVal = v end, true, "Lower = faster reload")
-guns:Toggle("Apply Fire Rate", false, function(s) fastFire = s end, "Toggles Fire Rate Slider")
+guns:Toggle("Apply Fire Rate", false, function(s) fastFire = s end, "Toggles FireRate Slider(ARs excluded if AR Instant on)")
 guns:Slider("Fire Rate", 0.1, 1.0, 0.1, function(v) fireRateVal = v end, true, "Lower = faster fire")
 
 fun:Div("AMMO", true)
@@ -179,10 +189,13 @@ updates:Log({
     "> Relase! - Gun TPs - Teleport to guns",
     "> Relase! - Teleports - Map locations",
     "> Relase! - Range - Extend gun range (15k)",
-	"> v1.1 - Moved Ammo due to it being visuals",
-	"> v1.1 - Added Ar's instant fire rate",
-	"> v1.1 - Added M9 full auto(Fun tab)",
-	"> Realized that no reload works only with M9",
+    "> v1.1 - Moved Ammo due to it being visuals",
+    "> v1.1 - Added Ar's instant fire rate",
+    "> v1.1 - Added M9 full auto(Fun tab)",
+    "> Realized that no reload works only with M9",
+    "> v1.1 - AR Instant now excludes,",
+	"> Ar's from fire rate slider. ",
+	"> v1.1 - Added priorities to fire rate features",
     "> hi :p"
 }, true)
 
@@ -231,8 +244,7 @@ while not destroyed do
                     if tool.Name == "Remington 870" then
                         tool:SetAttribute("AutoFire", shotgunAuto)
                     end
-                    local arNames = {["AK-47"]=true, ["MP5"]=true, ["FAL"]=true, ["M4A1"]=true}
-                    if arInstantFire and arNames[tool.Name] then
+                    if arInstantFire and AR_NAMES[tool.Name] then
                         tool:SetAttribute("FireRate", 0.001)
                     end
                     if m9FullAuto and tool.Name == "M9" then
@@ -241,7 +253,7 @@ while not destroyed do
                     if isGun(tool) then
                         for attr, valFn in _f(ATTRS) do
                             if tool:GetAttribute(attr) ~= nil then
-                                local val = valFn()
+                                local val = valFn(tool)
                                 if val then
                                     tool:SetAttribute(attr, val)
                                 end
