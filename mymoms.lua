@@ -92,17 +92,17 @@ local teleports = win:Tab("Teleports")
 local misc = win:Tab("Misc")
 local updates = win:Tab("Updates")
 
-main:Div("CORE", true)
+main:Div("Main", true)
 main:Toggle("Enabled", false, function(s) enabled = s end, "Master toggle for all gun mods")
 
 guns:Div("AMMO", true)
-guns:Toggle("Apply Ammo", false, function(s) infiniteAmmo = s end, "Sets MaxAmmo and CurrentAmmo")
+guns:Toggle("Apply Ammo", false, function(s) infiniteAmmo = s end, "Sets MaxAmmo and CurrentAmmo(pretty sure just visuals) ")
 guns:Slider("Ammo Amount", 1, 9999, 1, function(v) ammoVal = _i(v) end)
 
 guns:Div("FIRE", true)
-guns:Toggle("Apply Reload", false, function(s) instantReload = s end, "Sets ReloadTime to near zero")
+guns:Toggle("Apply Reload", false, function(s) instantReload = s end, "Toggles the slider reload")
 guns:Slider("Reload Time", 0.1, 5.0, 0.1, function(v) reloadVal = v end, true, "Lower = faster reload")
-guns:Toggle("Apply Fire Rate", false, function(s) fastFire = s end, "Sets FireRate to near zero")
+guns:Toggle("Apply Fire Rate", false, function(s) fastFire = s end, "Toggles the Slider firerate")
 guns:Slider("Fire Rate", 0.1, 1.0, 0.1, function(v) fireRateVal = v end, true, "Lower = faster fire")
 
 range:Div("RANGE", true)
