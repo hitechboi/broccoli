@@ -181,7 +181,7 @@ updates:Log({
     "> Relase! - Range - Extend gun range (15k)",
 	"> v1.1 - Moved Ammo due to it being visuals",
 	"> v1.1 - Added Ar's instant fire rate",
-	"> v1.1 - Added M9 full auto(Fun tab) and insta fire",
+	"> v1.1 - Added M9 full auto(Fun tab)",
 	"> Realized that no reload works only with M9",
     "> hi :p"
 }, true)
