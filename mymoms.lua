@@ -4,7 +4,6 @@
     github.com/hitechboi
     star my post :p, have fun!
 ]]
-
 local _a = game.GameId
 local _b = 73885730
 local _c = math.floor
@@ -34,9 +33,11 @@ local instantReload = false
 local fastFire = false
 local instantFire = false
 local shotgunAuto = false
+local arInstantFire = false
+local m9FullAuto = false
 local extendRange = false
 local ammoVal = 1
-local reloadVal = 0.1
+local reloadVal = 0.01
 local fireRateVal = 0.1
 local rangeVal = 1500
 local destroyed = false
@@ -86,6 +87,7 @@ local win = UILib.Window("Check it", "Interface", gameName)
 
 local main = win:Tab("Main")
 local guns = win:Tab("Gun Mods")
+local fun = win:Tab("Fun")
 local range = win:Tab("Range")
 local guntps = win:Tab("Gun TPs")
 local teleports = win:Tab("Teleports")
@@ -95,19 +97,21 @@ local updates = win:Tab("Updates")
 main:Div("Main", true)
 main:Toggle("Enabled", false, function(s) enabled = s end, "Master toggle for all gun mods")
 
-guns:Div("AMMO", true)
-guns:Toggle("Apply Ammo", false, function(s) infiniteAmmo = s end, "Sets MaxAmmo and CurrentAmmo(pretty sure just visuals) ")
-guns:Slider("Ammo Amount", 1, 9999, 1, function(v) ammoVal = _i(v) end)
-
 guns:Div("FIRE", true)
-guns:Toggle("Apply Reload", false, function(s) instantReload = s end, "Toggles the slider reload")
-guns:Slider("Reload Time", 0.1, 5.0, 0.1, function(v) reloadVal = v end, true, "Lower = faster reload")
-guns:Toggle("Apply Fire Rate", false, function(s) fastFire = s end, "Toggles the Slider firerate")
+guns:Toggle("Apply Reload", false, function(s) instantReload = s end, "Toggles Reload Slider(M9 Only)")
+guns:Slider("Reload Time", 0.01, 5.0, 0.01, function(v) reloadVal = v end, true, "Lower = faster reload")
+guns:Toggle("Apply Fire Rate", false, function(s) fastFire = s end, "Toggles Fire Rate Slider")
 guns:Slider("Fire Rate", 0.1, 1.0, 0.1, function(v) fireRateVal = v end, true, "Lower = faster fire")
+
+fun:Div("AMMO", true)
+fun:Toggle("Apply Ammo", false, function(s) infiniteAmmo = s end, "Visual only - once below original ammo count no damage")
+fun:Slider("Ammo Amount", 1, 9999, 1, function(v) ammoVal = _i(v) end)
+fun:Div("M9", true)
+fun:Toggle("M9 Full Auto", false, function(s) m9FullAuto = s end, "Toggles AutoFire on M9 pistol")
 
 range:Div("RANGE", true)
 range:Toggle("Extend Range", false, function(s) extendRange = s end, "Sets Range value")
-range:Slider("Range", 0, 5000, 1500, function(v) rangeVal = _i(v) end)
+range:Slider("Range", 0, 15000, 1500, function(v) rangeVal = _i(v) end)
 
 local function teleportAndBack(x, y, z)
     _h(function()
@@ -158,8 +162,9 @@ teleports:Button("Roof",          UILib.Colors.ROWBG, function() teleport(932.23
 teleports:Button("Criminal Base", UILib.Colors.ROWBG, function() teleport(-936.75, 94.13,  2054.35) end, UILib.Colors.WHITE)
 
 misc:Div("EXTRAS", true)
-misc:Toggle("Instant Fire Rate", false, function(s) instantFire = s end, "Sets FireRate to 0.001")
+misc:Toggle("Instant Fire Rate", false, function(s) instantFire = s end, "Insta FireRate!!!")
 misc:Toggle("Shotgun Full Auto", false, function(s) shotgunAuto = s end, "Toggles AutoFire on Remington 870")
+misc:Toggle("AR Instant Fire Rate", false, function(s) arInstantFire = s end, "Instant fire for AK-47, MP5, FAL, M4A1")
 misc:Div("APPEARANCE", true)
 misc:Dropdown("Theme", {"Check it", "Moon", "Grass", "Light", "Dark"}, 1, function(name)
     win:ApplyTheme(name)
@@ -170,10 +175,14 @@ misc:Button("by hitechboi / nejrio", UILib.Colors.ROWBG, nil, UILib.Colors.GRAY)
 updates:Div("UPDATE LOG")
 updates:Log({
     "STAR MY POST ! :D",
-    "> Gun Mods - Ammo, Reload, Fire Rate",
-    "> Gun TPs - Teleport to guns",
-    "> Teleports - Map locations",
-    "> Range - Extend gun range",
+    "> Relase! - Gun Mods - Ammo, Reload, Fire Rate",
+    "> Relase! - Gun TPs - Teleport to guns",
+    "> Relase! - Teleports - Map locations",
+    "> Relase! - Range - Extend gun range (15k)",
+	"> v1.1 - Moved Ammo due to it being visuals",
+	"> v1.1 - Added Ar's instant fire rate",
+	"> v1.1 - Added M9 full auto(Fun tab) and insta fire",
+	"> Realized that no reload works only with M9",
     "> hi :p"
 }, true)
 
@@ -187,7 +196,7 @@ win:Init("Main", function()
 end)
 
 while not destroyed do
-    task.wait(0.05)
+    task.wait(0.01)
 
     _h(function()
         local char = lp.Character
@@ -221,6 +230,13 @@ while not destroyed do
                 for _, tool in _g(container:GetChildren()) do
                     if tool.Name == "Remington 870" then
                         tool:SetAttribute("AutoFire", shotgunAuto)
+                    end
+                    local arNames = {["AK-47"]=true, ["MP5"]=true, ["FAL"]=true, ["M4A1"]=true}
+                    if arInstantFire and arNames[tool.Name] then
+                        tool:SetAttribute("FireRate", 0.001)
+                    end
+                    if m9FullAuto and tool.Name == "M9" then
+                        tool:SetAttribute("AutoFire", true)
                     end
                     if isGun(tool) then
                         for attr, valFn in _f(ATTRS) do
