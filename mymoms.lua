@@ -20,7 +20,7 @@ local _h = pcall
 local _i = math.floor
 local _j = Vector3.new
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/bizzarehijinks/refs/heads/main/matchup.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/bizzarehijinks/refs/heads/main/dior.lua"))()
 repeat task.wait() until _G.UILib
 local UILib = _G.UILib
 
@@ -180,18 +180,15 @@ misc:Button("by hitechboi / nejrio", UILib.Colors.ROWBG, nil, UILib.Colors.GRAY)
 updates:Div("UPDATE LOG")
 updates:Log({
     "STAR MY POST ! :D",
-    "> Relase! - Gun Mods - Ammo, Reload, Fire Rate",
-    "> Relase! - Gun TPs - Teleport to guns",
-    "> Relase! - Teleports - Map locations",
-    "> Relase! - Range - Extend gun range (15k)",
-    "> v1.1 - Moved Ammo due to it being visuals",
-    "> v1.1 - Added Ar's instant fire rate",
-    "> v1.1 - Added M9 full auto(Fun tab)",
     "> Realized that no reload works only with M9",
     "> v1.1 - AR Instant now excludes,",
 	"> Ar's from fire rate slider. ",
 	"> v1.1 - Added priorities to fire rate features",
 	"> Uni - Ui QOL Update will finish tmw",
+	"> Uni - Ui More Qol",
+	"> Uni - Addded ScrollBar",
+	"> Uni - Fixed Buttons clipping out the menu",
+	"> Uni - user greeting plus fixed minimize menu",
     "> hi :p"
 }, true)
 
