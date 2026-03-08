@@ -20,7 +20,7 @@ local _h = pcall
 local _i = math.floor
 local _j = Vector3.new
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/bizzarehijinks/refs/heads/main/rangerover.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/bizzarehijinks/refs/heads/main/clutchinorwhat.lua"))()
 repeat task.wait() until _G.UILib
 local UILib = _G.UILib
 
@@ -107,7 +107,7 @@ main:Div("Main", true)
 main:Toggle("Enabled", false, function(s) enabled = s end, "Master toggle for all gun mods")
 
 guns:Div("FIRE", true)
-guns:Toggle("Apply Reload", false, function(s) instantReload = s end, "Toggles Reload Slider(M9 Only)")
+guns:Toggle("Apply Reload", false, function(s) instantReload = s end, "Toggles Reload Slider(M9,Taser Only)")
 guns:Slider("Reload Time", 0.01, 5.0, 0.01, function(v) reloadVal = v end, true, "Lower = faster reload")
 guns:Toggle("Apply Fire Rate", false, function(s) fastFire = s end, "Toggles FireRate Slider(ARs excluded if AR Instant on)")
 guns:Slider("Fire Rate", 0.1, 1.0, 0.1, function(v) fireRateVal = v end, true, "Lower = faster fire")
@@ -195,6 +195,7 @@ updates:Log({
     "> v1.1 - AR Instant now excludes,",
 	"> Ar's from fire rate slider. ",
 	"> v1.1 - Added priorities to fire rate features",
+	"> Uni - Ui QOL Update will finish tmw",
     "> hi :p"
 }, true)
 
