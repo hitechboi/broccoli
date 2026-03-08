@@ -20,7 +20,7 @@ local _h = pcall
 local _i = math.floor
 local _j = Vector3.new
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/bizzarehijinks/refs/heads/main/catchmeifyoucan.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/bizzarehijinks/refs/heads/main/matchup.lua"))()
 repeat task.wait() until _G.UILib
 local UILib = _G.UILib
 
