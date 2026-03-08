@@ -63,7 +63,6 @@ local ATTRS = {
     CurrentAmmo = function() return infiniteAmmo and ammoVal end,
     ReloadTime  = function() return instantReload and reloadVal end,
     FireRate    = function(tool)
-        -- AR instant fire takes priority, exclude ARs from regular fire rate
         if instantFire then return 0.001 end
         if fastFire then
             if arInstantFire and AR_NAMES[tool.Name] then return nil end
