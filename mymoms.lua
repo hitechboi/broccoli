@@ -20,7 +20,7 @@ local _h = pcall
 local _i = math.floor
 local _j = Vector3.new
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/bizzarehijinks/refs/heads/main/clutchinorwhat.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/bizzarehijinks/refs/heads/main/catchmeifyoucan.lua"))()
 repeat task.wait() until _G.UILib
 local UILib = _G.UILib
 
@@ -97,8 +97,6 @@ local win = UILib.Window("Check it", "Interface", gameName)
 local main = win:Tab("Main")
 local guns = win:Tab("Gun Mods")
 local fun = win:Tab("Fun")
-local range = win:Tab("Range")
-local guntps = win:Tab("Gun TPs")
 local teleports = win:Tab("Teleports")
 local misc = win:Tab("Misc")
 local updates = win:Tab("Updates")
@@ -111,16 +109,18 @@ guns:Toggle("Apply Reload", false, function(s) instantReload = s end, "Toggles R
 guns:Slider("Reload Time", 0.01, 5.0, 0.01, function(v) reloadVal = v end, true, "Lower = faster reload")
 guns:Toggle("Apply Fire Rate", false, function(s) fastFire = s end, "Toggles FireRate Slider(ARs excluded if AR Instant on)")
 guns:Slider("Fire Rate", 0.1, 1.0, 0.1, function(v) fireRateVal = v end, true, "Lower = faster fire")
+guns:Div("EXTRAS", true)
+guns:Toggle("Instant Fire Rate", false, function(s) instantFire = s end, "Insta FireRate!!!")
+guns:Toggle("Shotgun Full Auto", false, function(s) shotgunAuto = s end, "Toggles AutoFire on Remington 870")
+guns:Toggle("AR Instant Fire Rate", false, function(s) arInstantFire = s end, "Instant fire for AK-47, MP5, FAL, M4A1")
+guns:Toggle("M9 Full Auto", false, function(s) m9FullAuto = s end, "Toggles AutoFire on M9 pistol")
+guns:Div("RANGE", true)
+guns:Toggle("Extend Range", false, function(s) extendRange = s end, "Sets Range value")
+guns:Slider("Range", 0, 15000, 1500, function(v) rangeVal = _i(v) end)
 
 fun:Div("AMMO", true)
 fun:Toggle("Apply Ammo", false, function(s) infiniteAmmo = s end, "Visual only - once below original ammo count no damage")
 fun:Slider("Ammo Amount", 1, 9999, 1, function(v) ammoVal = _i(v) end)
-fun:Div("M9", true)
-fun:Toggle("M9 Full Auto", false, function(s) m9FullAuto = s end, "Toggles AutoFire on M9 pistol")
-
-range:Div("RANGE", true)
-range:Toggle("Extend Range", false, function(s) extendRange = s end, "Sets Range value")
-range:Slider("Range", 0, 15000, 1500, function(v) rangeVal = _i(v) end)
 
 local function teleportAndBack(x, y, z)
     _h(function()
@@ -138,18 +138,6 @@ local function teleportAndBack(x, y, z)
     end)
 end
 
-guntps:Div("CRIMINAL GUNS", true)
-guntps:Button("Remington 870", UILib.Colors.ROWBG, function() teleportAndBack(-938.22, 94.31,  2039.17) end, UILib.Colors.WHITE)
-guntps:Button("AK-47",         UILib.Colors.ROWBG, function() teleportAndBack(-931.39, 94.37,  2039.39) end, UILib.Colors.WHITE)
-guntps:Button("M700",          UILib.Colors.ROWBG, function() teleportAndBack(-919.96, 95.01,  2036)    end, UILib.Colors.WHITE)
-guntps:Button("FAL",           UILib.Colors.ROWBG, function() teleportAndBack(-902.34, 94.35,  2047.93) end, UILib.Colors.WHITE)
-
-guntps:Div("COP GUNS", true)
-guntps:Button("MP5",           UILib.Colors.ROWBG, function() teleportAndBack(813.16,  100.88, 2229)    end, UILib.Colors.WHITE)
-guntps:Button("Rem Cop",       UILib.Colors.ROWBG, function() teleportAndBack(820.64,  100.88, 2228.95) end, UILib.Colors.WHITE)
-guntps:Button("M700 Cop",      UILib.Colors.ROWBG, function() teleportAndBack(836.09,  100.74, 2229.32) end, UILib.Colors.WHITE)
-guntps:Button("M4A1",          UILib.Colors.ROWBG, function() teleportAndBack(847.71,  100.74, 2229.33) end, UILib.Colors.WHITE)
-
 local function teleport(x, y, z)
     _h(function()
         local hrp = lp.Character:FindFirstChild("HumanoidRootPart")
@@ -159,6 +147,18 @@ local function teleport(x, y, z)
         end
     end)
 end
+
+teleports:Div("CRIMINAL GUNS", true)
+teleports:Button("Remington 870", UILib.Colors.ROWBG, function() teleportAndBack(-938.22, 94.31,  2039.17) end, UILib.Colors.WHITE)
+teleports:Button("AK-47",         UILib.Colors.ROWBG, function() teleportAndBack(-931.39, 94.37,  2039.39) end, UILib.Colors.WHITE)
+teleports:Button("M700",          UILib.Colors.ROWBG, function() teleportAndBack(-919.96, 95.01,  2036)    end, UILib.Colors.WHITE)
+teleports:Button("FAL",           UILib.Colors.ROWBG, function() teleportAndBack(-902.34, 94.35,  2047.93) end, UILib.Colors.WHITE)
+
+teleports:Div("COP GUNS", true)
+teleports:Button("MP5",           UILib.Colors.ROWBG, function() teleportAndBack(813.16,  100.88, 2229)    end, UILib.Colors.WHITE)
+teleports:Button("Rem Cop",       UILib.Colors.ROWBG, function() teleportAndBack(820.64,  100.88, 2228.95) end, UILib.Colors.WHITE)
+teleports:Button("M700 Cop",      UILib.Colors.ROWBG, function() teleportAndBack(836.09,  100.74, 2229.32) end, UILib.Colors.WHITE)
+teleports:Button("M4A1",          UILib.Colors.ROWBG, function() teleportAndBack(847.71,  100.74, 2229.33) end, UILib.Colors.WHITE)
 
 teleports:Div("LOCATIONS", true)
 teleports:Button("Yard",          UILib.Colors.ROWBG, function() teleport(784.12,  98,     2460.25) end, UILib.Colors.WHITE)
@@ -170,10 +170,6 @@ teleports:Button("Prison Cells",  UILib.Colors.ROWBG, function() teleport(920.01
 teleports:Button("Roof",          UILib.Colors.ROWBG, function() teleport(932.23,  118.99, 2365.07) end, UILib.Colors.WHITE)
 teleports:Button("Criminal Base", UILib.Colors.ROWBG, function() teleport(-936.75, 94.13,  2054.35) end, UILib.Colors.WHITE)
 
-misc:Div("EXTRAS", true)
-misc:Toggle("Instant Fire Rate", false, function(s) instantFire = s end, "Insta FireRate!!!")
-misc:Toggle("Shotgun Full Auto", false, function(s) shotgunAuto = s end, "Toggles AutoFire on Remington 870")
-misc:Toggle("AR Instant Fire Rate", false, function(s) arInstantFire = s end, "Instant fire for AK-47, MP5, FAL, M4A1")
 misc:Div("APPEARANCE", true)
 misc:Dropdown("Theme", {"Check it", "Moon", "Grass", "Light", "Dark"}, 1, function(name)
     win:ApplyTheme(name)
