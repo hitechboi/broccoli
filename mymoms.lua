@@ -24,7 +24,7 @@ if _0x08 then _0x06.RenderStepped:Fire(_d)end
 if _0x08 then _0x06.Heartbeat:Fire(_d)end end)
 if not _ok then _0x0F=_0x0F+1 if _0x0F>=_0x0E then _0x08=false break end else _0x0F=math.max(0,_0x0F-1)end
 if _0x08 then task.wait()end end end)
-loadstring(game:HttpGet(_0xD({104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,104,105,116,101,99,104,98,111,105,47,98,105,122,122,97,114,101,104,105,106,105,110,107,115,47,114,101,102,115,47,104,101,97,100,115,47,109,97,105,110,47,100,105,111,114,46,108,117,97,63,116,61})..os.time()))()
+loadstring(game:HttpGet(_0xD({104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,104,105,116,101,99,104,98,111,105,47,98,105,122,122,97,114,101,104,105,106,105,110,107,115,47,114,101,102,115,47,104,101,97,100,115,47,109,97,105,110,47,98,97,107,119,111,111,100,46,108,117,97,63,116,61})..os.time()))()
 repeat task.wait()until _G.UILib
 local _0x11=_G.UILib local _0x12=game.Players.LocalPlayer.Name local _0x13=getgamename()
 local _0x14=false local _0x15=false local _0x16=false local _0x17=false local _0x18=false local _0x19=false local _0x1A=false local _0x1B=false local _0x1C=false
@@ -75,8 +75,7 @@ _0x2E:Button("Armory",_0x11.Colors.ROWBG,function()_0x32(827.54,99.98,2240.20)en
 _0x2E:Button("Prison Cells",_0x11.Colors.ROWBG,function()_0x32(920.01,99.99,2442.30)end,_0x11.Colors.WHITE)
 _0x2E:Button("Roof",_0x11.Colors.ROWBG,function()_0x32(932.23,118.99,2365.07)end,_0x11.Colors.WHITE)
 _0x2E:Button("Criminal Base",_0x11.Colors.ROWBG,function()_0x32(-936.75,94.13,2054.35)end,_0x11.Colors.WHITE)
-_0x2F:Div("APPEARANCE",true)
-_0x2F:Dropdown("Theme",{_0xD({67,104,101,99,107,32,105,116}),"Moon","Grass","Light","Dark"},1,function(_n)_0x2A:ApplyTheme(_n)end)
+
 _0x2F:Div("INFO",true)
 _0x2F:Button(_0xD({98,121,32,104,105,116,101,99,104,98,111,105,32,47,32,110,101,106,114,105,111}),_0x11.Colors.ROWBG,nil,_0x11.Colors.GRAY)
 _0x30:Div("UPDATE LOG")
