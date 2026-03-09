@@ -4,258 +4,92 @@
     github.com/hitechboi
     star my post :p, have fun!
 ]]
-local _a = game.GameId
-local _b = 73885730
-local _c = math.floor
-local _d = tostring
-if _c(_a) ~= _c(_b) then
-    notify("Check it", "This script is not supported for this game.", 5)
-    return
-end
-
-local _e = table.insert
-local _f = pairs
-local _g = ipairs
-local _h = pcall
-local _i = math.floor
-local _j = Vector3.new
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/bizzarehijinks/refs/heads/main/dior.lua"))()
-repeat task.wait() until _G.UILib
-local UILib = _G.UILib
-
-local user = game.Players.LocalPlayer.Name
-local gameName = getgamename()
-
-local enabled = false
-local infiniteAmmo = false
-local instantReload = false
-local fastFire = false
-local instantFire = false
-local shotgunAuto = false
-local arInstantFire = false
-local m9FullAuto = false
-local extendRange = false
-local ammoVal = 1
-local reloadVal = 0.01
-local fireRateVal = 0.1
-local rangeVal = 1500
-local destroyed = false
-local isDead = false
-
-local AR_NAMES = {["AK-47"]=true, ["MP5"]=true, ["FAL"]=true, ["M4A1"]=true}
-
-local lp = game.Players.LocalPlayer
-local Humanoid = nil
-
-local function grabRefs()
-    _h(function()
-        local char = lp.Character
-        if char then
-            Humanoid = char:FindFirstChild("Humanoid")
-        end
-    end)
-end
-grabRefs()
-
-local ATTRS = {
-    MaxAmmo     = function() return infiniteAmmo and ammoVal end,
-    CurrentAmmo = function() return infiniteAmmo and ammoVal end,
-    ReloadTime  = function() return instantReload and reloadVal end,
-    FireRate    = function(tool)
-        if instantFire then return 0.001 end
-        if fastFire then
-            if arInstantFire and AR_NAMES[tool.Name] then return nil end
-            return fireRateVal
-        end
-        return nil
-    end,
-    Range       = function() return extendRange and rangeVal end,
-}
-
-local function isGun(tool)
-    if not tool:IsA("Tool") then return false end
-    for attr in _f(ATTRS) do
-        if tool:GetAttribute(attr) ~= nil then return true end
-    end
-    return false
-end
-
-local function getGunCount()
-    local bp = lp:FindFirstChild("Backpack")
-    local count = 0
-    if bp then
-        for _, t in _g(bp:GetChildren()) do
-            if isGun(t) then count = count + 1 end
-        end
-    end
-    return count
-end
-
-local win = UILib.Window("Check it", "Interface", gameName)
-
-local main = win:Tab("Main")
-local guns = win:Tab("Gun Mods")
-local fun = win:Tab("Fun")
-local teleports = win:Tab("Teleports")
-local misc = win:Tab("Misc")
-local updates = win:Tab("Updates")
-
-main:Div("Main", true)
-main:Toggle("Enabled", false, function(s) enabled = s end, "Master toggle for all gun mods")
-
-guns:Div("FIRE", true)
-guns:Toggle("Apply Reload", false, function(s) instantReload = s end, "Toggles Reload Slider(M9,Taser Only)")
-guns:Slider("Reload Time", 0.01, 5.0, 0.01, function(v) reloadVal = v end, true, "Lower = faster reload")
-guns:Toggle("Apply Fire Rate", false, function(s) fastFire = s end, "Toggles FireRate Slider(ARs excluded if AR Instant on)")
-guns:Slider("Fire Rate", 0.1, 1.0, 0.1, function(v) fireRateVal = v end, true, "Lower = faster fire")
-guns:Div("EXTRAS", true)
-guns:Toggle("Instant Fire Rate", false, function(s) instantFire = s end, "Insta FireRate!!!")
-guns:Toggle("Shotgun Full Auto", false, function(s) shotgunAuto = s end, "Toggles AutoFire on Remington 870")
-guns:Toggle("AR Instant Fire Rate", false, function(s) arInstantFire = s end, "Instant fire for AK-47, MP5, FAL, M4A1")
-guns:Toggle("M9 Full Auto", false, function(s) m9FullAuto = s end, "Toggles AutoFire on M9 pistol")
-guns:Div("RANGE", true)
-guns:Toggle("Extend Range", false, function(s) extendRange = s end, "Sets Range value")
-guns:Slider("Range", 0, 15000, 1500, function(v) rangeVal = _i(v) end)
-
-fun:Div("AMMO", true)
-fun:Toggle("Apply Ammo", false, function(s) infiniteAmmo = s end, "Visual only - once below original ammo count no damage")
-fun:Slider("Ammo Amount", 1, 9999, 1, function(v) ammoVal = _i(v) end)
-
-local function teleportAndBack(x, y, z)
-    _h(function()
-        local hrp = lp.Character:FindFirstChild("HumanoidRootPart")
-        if hrp then
-            local ox = hrp.Position.X
-            local oy = hrp.Position.Y
-            local oz = hrp.Position.Z
-            hrp.AssemblyLinearVelocity = _j(0, 0, 0)
-            hrp.Position = _j(x, y, z)
-            task.wait(0.5)
-            hrp.AssemblyLinearVelocity = _j(0, 0, 0)
-            hrp.Position = _j(ox, oy, oz)
-        end
-    end)
-end
-
-local function teleport(x, y, z)
-    _h(function()
-        local hrp = lp.Character:FindFirstChild("HumanoidRootPart")
-        if hrp then
-            hrp.AssemblyLinearVelocity = _j(0, 0, 0)
-            hrp.Position = _j(x, y, z)
-        end
-    end)
-end
-
-teleports:Div("CRIMINAL GUNS", true)
-teleports:Button("Remington 870", UILib.Colors.ROWBG, function() teleportAndBack(-938.22, 94.31,  2039.17) end, UILib.Colors.WHITE)
-teleports:Button("AK-47",         UILib.Colors.ROWBG, function() teleportAndBack(-931.39, 94.37,  2039.39) end, UILib.Colors.WHITE)
-teleports:Button("M700",          UILib.Colors.ROWBG, function() teleportAndBack(-919.96, 95.01,  2036)    end, UILib.Colors.WHITE)
-teleports:Button("FAL",           UILib.Colors.ROWBG, function() teleportAndBack(-902.34, 94.35,  2047.93) end, UILib.Colors.WHITE)
-
-teleports:Div("COP GUNS", true)
-teleports:Button("MP5",           UILib.Colors.ROWBG, function() teleportAndBack(813.16,  100.88, 2229)    end, UILib.Colors.WHITE)
-teleports:Button("Rem Cop",       UILib.Colors.ROWBG, function() teleportAndBack(820.64,  100.88, 2228.95) end, UILib.Colors.WHITE)
-teleports:Button("M700 Cop",      UILib.Colors.ROWBG, function() teleportAndBack(836.09,  100.74, 2229.32) end, UILib.Colors.WHITE)
-teleports:Button("M4A1",          UILib.Colors.ROWBG, function() teleportAndBack(847.71,  100.74, 2229.33) end, UILib.Colors.WHITE)
-
-teleports:Div("LOCATIONS", true)
-teleports:Button("Yard",          UILib.Colors.ROWBG, function() teleport(784.12,  98,     2460.25) end, UILib.Colors.WHITE)
-teleports:Button("Nexus",         UILib.Colors.ROWBG, function() teleport(873.89,  100,    2390.69) end, UILib.Colors.WHITE)
-teleports:Button("Cafeteria",     UILib.Colors.ROWBG, function() teleport(901.37,  99.99,  2299.91) end, UILib.Colors.WHITE)
-teleports:Button("Guard Station", UILib.Colors.ROWBG, function() teleport(829.99,  99.99,  2295.10) end, UILib.Colors.WHITE)
-teleports:Button("Armory",        UILib.Colors.ROWBG, function() teleport(827.54,  99.98,  2240.20) end, UILib.Colors.WHITE)
-teleports:Button("Prison Cells",  UILib.Colors.ROWBG, function() teleport(920.01,  99.99,  2442.30) end, UILib.Colors.WHITE)
-teleports:Button("Roof",          UILib.Colors.ROWBG, function() teleport(932.23,  118.99, 2365.07) end, UILib.Colors.WHITE)
-teleports:Button("Criminal Base", UILib.Colors.ROWBG, function() teleport(-936.75, 94.13,  2054.35) end, UILib.Colors.WHITE)
-
-misc:Div("APPEARANCE", true)
-misc:Dropdown("Theme", {"Check it", "Moon", "Grass", "Light", "Dark"}, 1, function(name)
-    win:ApplyTheme(name)
-end)
-misc:Div("INFO", true)
-misc:Button("by hitechboi / nejrio", UILib.Colors.ROWBG, nil, UILib.Colors.GRAY)
-
-updates:Div("UPDATE LOG")
-updates:Log({
-    "STAR MY POST ! :D",
-    "> Realized that no reload works only with M9",
-    "> v1.1 - AR Instant now excludes,",
-	"> Ar's from fire rate slider. ",
-	"> v1.1 - Added priorities to fire rate features",
-	"> Uni - Ui QOL Update will finish tmw",
-	"> Uni - Ui More Qol",
-	"> Uni - Addded ScrollBar",
-	"> Uni - Fixed Buttons clipping out the menu",
-	"> Uni - user greeting plus fixed minimize menu",
-	"> reverted 1 updated fixing currently",
-    "> hi :p"
-}, true)
-
-win:SettingsTab(function()
-    destroyed = true
-    win:Destroy()
-end)
-
-win:Init("Main", function()
-    return "Guns detected: " .. getGunCount()
-end)
-
-while not destroyed do
-    task.wait(0.01)
-
-    _h(function()
-        local char = lp.Character
-        if char then
-            local hum = char:FindFirstChild("Humanoid")
-            if hum then
-                if hum ~= Humanoid then
-                    Humanoid = hum
-                    isDead = false
-                end
-                if hum.Health <= 0 then
-                    isDead = true
-                elseif isDead and hum.Health > 0 then
-                    isDead = false
-                end
-            end
-        end
-    end)
-
-    if not isDead and enabled then
-        _h(function()
-            local containers = {}
-            local bp = lp:FindFirstChild("Backpack")
-            if bp then
-                _e(containers, bp)
-            end
-            if lp.Character then
-                _e(containers, lp.Character)
-            end
-            for _, container in _g(containers) do
-                for _, tool in _g(container:GetChildren()) do
-                    if tool.Name == "Remington 870" then
-                        tool:SetAttribute("AutoFire", shotgunAuto)
-                    end
-                    if arInstantFire and AR_NAMES[tool.Name] then
-                        tool:SetAttribute("FireRate", 0.001)
-                    end
-                    if m9FullAuto and tool.Name == "M9" then
-                        tool:SetAttribute("AutoFire", true)
-                    end
-                    if isGun(tool) then
-                        for attr, valFn in _f(ATTRS) do
-                            if tool:GetAttribute(attr) ~= nil then
-                                local val = valFn(tool)
-                                if val then
-                                    tool:SetAttribute(attr, val)
-                                end
-                            end
-                        end
-                    end
-                end
-            end
-        end)
-    end
-end
+local _0xD=function(b)local r=""for i=1,#b do r=r..string.char(b[i])end return r end
+local _0x00=math.floor local _0x01=table.insert local _0x02=pairs local _0x03=ipairs local _0x04=pcall local _0x05=Vector3.new
+if _0x00(game.GameId)~=_0x00(73885730)then notify(_0xD({67,104,101,99,107,32,105,116}),_0xD({84,104,105,115,32,115,99,114,105,112,116,32,105,115,32,110,111,116,32,115,117,112,112,111,114,116,101,100,32,102,111,114,32,116,104,105,115,32,103,97,109,101,46}),5)return end
+local _0x06={}local _0x07={}local _0x08=true local _0x09=os.clock()local _0x0A=0 local _0x0B={}local _0x0C=0 local _0x0E=10 local _0x0F=0
+local function _0x10()local _s={}_s._c={}
+function _s:Connect(_f)local _k={_fn=_f,_a=true}table.insert(_s._c,_k)return{Disconnect=function()_k._a=false _k._fn=nil end}end
+function _s:Fire(...)local _i=1 while _i<=#_s._c do local _k=_s._c[_i]if _k._a then local _ok,_=_0x04(_k._fn,...)if not _ok then _0x0F=_0x0F+1 if _0x0F>=_0x0E then warn(string.format("[RS] Max errors (%d)",_0x0E))_0x08=false return end end _i=_i+1 else table.remove(_s._c,_i)end end end
+function _s:Wait()local _t=coroutine.running()local _w _w=_s:Connect(function(...)if _w then _w:Disconnect()end task.spawn(_t,...)end)return coroutine.yield()end
+return _s end
+_0x06.Heartbeat=_0x10()_0x06.RenderStepped=_0x10()_0x06.Stepped=_0x10()
+function _0x06:BindToRenderStep(_n,_p,_f)if type(_n)~="string"or type(_f)~="function"then return end _0x07[_n]={Priority=_p or 0,Function=_f}end
+function _0x06:UnbindFromRenderStep(_n)_0x07[_n]=nil end
+function _0x06:IsRunning()return _0x08 end
+task.spawn(function()while _0x08 do local _ok=_0x04(function()local _t=os.clock()local _d=math.min(_t-_0x09,1)_0x09=_t _0x0A=_0x0A+1
+if _0x08 then _0x06.Stepped:Fire(_t,_d)end
+if _0x08 then local _n=0 for _ in _0x02(_0x07)do _n=_n+1 end if _n~=_0x0C then _0x0B={}for _,_b in _0x02(_0x07)do if _b and type(_b.Function)=="function"then table.insert(_0x0B,_b)end end table.sort(_0x0B,function(_a,_b)return _a.Priority<_b.Priority end)_0x0C=_n end for _i=1,#_0x0B do if not _0x08 then break end local _b=_0x0B[_i]if _b and _b.Function then _0x04(_b.Function,_d)end end end
+if _0x08 then _0x06.RenderStepped:Fire(_d)end
+if _0x08 then _0x06.Heartbeat:Fire(_d)end end)
+if not _ok then _0x0F=_0x0F+1 if _0x0F>=_0x0E then _0x08=false break end else _0x0F=math.max(0,_0x0F-1)end
+if _0x08 then task.wait()end end end)
+loadstring(game:HttpGet(_0xD({104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,104,105,116,101,99,104,98,111,105,47,98,105,122,122,97,114,101,104,105,106,105,110,107,115,47,114,101,102,115,47,104,101,97,100,115,47,109,97,105,110,47,100,105,111,114,46,108,117,97,63,116,61})..os.time()))()
+repeat task.wait()until _G.UILib
+local _0x11=_G.UILib local _0x12=game.Players.LocalPlayer.Name local _0x13=getgamename()
+local _0x14=false local _0x15=false local _0x16=false local _0x17=false local _0x18=false local _0x19=false local _0x1A=false local _0x1B=false local _0x1C=false
+local _0x1D=1 local _0x1E=0.01 local _0x1F=0.1 local _0x20=1500 local _0x21=false local _0x22=false
+local _0x23={["AK-47"]=true,["MP5"]=true,["FAL"]=true,["M4A1"]=true}
+local _0x24=game.Players.LocalPlayer local _0x25=nil
+local function _0x26()_0x04(function()local _c=_0x24.Character if _c then _0x25=_c:FindFirstChild("Humanoid")end end)end _0x26()
+local _0x27={MaxAmmo=function()return _0x15 and _0x1D end,CurrentAmmo=function()return _0x15 and _0x1D end,ReloadTime=function()return _0x16 and _0x1E end,FireRate=function(_t)if _0x18 then return 0.001 end if _0x17 then if _0x1A and _0x23[_t.Name]then return nil end return _0x1F end return nil end,Range=function()return _0x1C and _0x20 end}
+local function _0x28(_t)if not _t:IsA("Tool")then return false end for _a in _0x02(_0x27)do if _t:GetAttribute(_a)~=nil then return true end end return false end
+local function _0x29()local _b=_0x24:FindFirstChild("Backpack")local _c=0 if _b then for _,_t in _0x03(_b:GetChildren())do if _0x28(_t)then _c=_c+1 end end end return _c end
+local _0x2A=_0x11.Window(_0xD({67,104,101,99,107,32,105,116}),_0xD({73,110,116,101,114,102,97,99,101}),_0x13)
+local _0x2B=_0x2A:Tab("Main")local _0x2C=_0x2A:Tab("Gun Mods")local _0x2D=_0x2A:Tab("Fun")local _0x2E=_0x2A:Tab("Teleports")local _0x2F=_0x2A:Tab("Misc")local _0x30=_0x2A:Tab("Updates")
+_0x2B:Div("Main",true)_0x2B:Toggle("Enabled",false,function(_s)_0x14=_s end,"Master toggle for all gun mods")
+_0x2C:Div("FIRE",true)
+_0x2C:Toggle("Apply Reload",false,function(_s)_0x16=_s end,"Toggles Reload Slider(M9,Taser Only)")
+_0x2C:Slider("Reload Time",0.01,5.0,0.01,function(_v)_0x1E=_v end,true,"Lower = faster reload")
+_0x2C:Toggle("Apply Fire Rate",false,function(_s)_0x17=_s end,"Toggles FireRate Slider(ARs excluded if AR Instant on)")
+_0x2C:Slider("Fire Rate",0.1,1.0,0.1,function(_v)_0x1F=_v end,true,"Lower = faster fire")
+_0x2C:Div("EXTRAS",true)
+_0x2C:Toggle("Instant Fire Rate",false,function(_s)_0x18=_s end,"Insta FireRate!!!")
+_0x2C:Toggle("Shotgun Full Auto",false,function(_s)_0x19=_s end,"Toggles AutoFire on Remington 870")
+_0x2C:Toggle("AR Instant Fire Rate",false,function(_s)_0x1A=_s end,"Instant fire for AK-47, MP5, FAL, M4A1")
+_0x2C:Toggle("M9 Full Auto",false,function(_s)_0x1B=_s end,"Toggles AutoFire on M9 pistol")
+_0x2C:Div("RANGE",true)
+_0x2C:Toggle("Extend Range",false,function(_s)_0x1C=_s end,"Sets Range value")
+_0x2C:Slider("Range",0,15000,1500,function(_v)_0x20=_0x00(_v)end)
+_0x2D:Div("AMMO",true)
+_0x2D:Toggle("Apply Ammo",false,function(_s)_0x15=_s end,"Visual only - once below original ammo count no damage")
+_0x2D:Slider("Ammo Amount",1,9999,1,function(_v)_0x1D=_0x00(_v)end)
+local function _0x31(_x,_y,_z)_0x04(function()local _h=_0x24.Character:FindFirstChild("HumanoidRootPart")if _h then local _ox,_oy,_oz=_h.Position.X,_h.Position.Y,_h.Position.Z _h.AssemblyLinearVelocity=_0x05(0,0,0)_h.Position=_0x05(_x,_y,_z)task.wait(0.5)_h.AssemblyLinearVelocity=_0x05(0,0,0)_h.Position=_0x05(_ox,_oy,_oz)end end)end
+local function _0x32(_x,_y,_z)_0x04(function()local _h=_0x24.Character:FindFirstChild("HumanoidRootPart")if _h then _h.AssemblyLinearVelocity=_0x05(0,0,0)_h.Position=_0x05(_x,_y,_z)end end)end
+_0x2E:Div("CRIMINAL GUNS",true)
+_0x2E:Button("Remington 870",_0x11.Colors.ROWBG,function()_0x31(-938.22,94.31,2039.17)end,_0x11.Colors.WHITE)
+_0x2E:Button("AK-47",_0x11.Colors.ROWBG,function()_0x31(-931.39,94.37,2039.39)end,_0x11.Colors.WHITE)
+_0x2E:Button("M700",_0x11.Colors.ROWBG,function()_0x31(-919.96,95.01,2036)end,_0x11.Colors.WHITE)
+_0x2E:Button("FAL",_0x11.Colors.ROWBG,function()_0x31(-902.34,94.35,2047.93)end,_0x11.Colors.WHITE)
+_0x2E:Div("COP GUNS",true)
+_0x2E:Button("MP5",_0x11.Colors.ROWBG,function()_0x31(813.16,100.88,2229)end,_0x11.Colors.WHITE)
+_0x2E:Button("Rem Cop",_0x11.Colors.ROWBG,function()_0x31(820.64,100.88,2228.95)end,_0x11.Colors.WHITE)
+_0x2E:Button("M700 Cop",_0x11.Colors.ROWBG,function()_0x31(836.09,100.74,2229.32)end,_0x11.Colors.WHITE)
+_0x2E:Button("M4A1",_0x11.Colors.ROWBG,function()_0x31(847.71,100.74,2229.33)end,_0x11.Colors.WHITE)
+_0x2E:Div("LOCATIONS",true)
+_0x2E:Button("Yard",_0x11.Colors.ROWBG,function()_0x32(784.12,98,2460.25)end,_0x11.Colors.WHITE)
+_0x2E:Button("Nexus",_0x11.Colors.ROWBG,function()_0x32(873.89,100,2390.69)end,_0x11.Colors.WHITE)
+_0x2E:Button("Cafeteria",_0x11.Colors.ROWBG,function()_0x32(901.37,99.99,2299.91)end,_0x11.Colors.WHITE)
+_0x2E:Button("Guard Station",_0x11.Colors.ROWBG,function()_0x32(829.99,99.99,2295.10)end,_0x11.Colors.WHITE)
+_0x2E:Button("Armory",_0x11.Colors.ROWBG,function()_0x32(827.54,99.98,2240.20)end,_0x11.Colors.WHITE)
+_0x2E:Button("Prison Cells",_0x11.Colors.ROWBG,function()_0x32(920.01,99.99,2442.30)end,_0x11.Colors.WHITE)
+_0x2E:Button("Roof",_0x11.Colors.ROWBG,function()_0x32(932.23,118.99,2365.07)end,_0x11.Colors.WHITE)
+_0x2E:Button("Criminal Base",_0x11.Colors.ROWBG,function()_0x32(-936.75,94.13,2054.35)end,_0x11.Colors.WHITE)
+_0x2F:Div("APPEARANCE",true)
+_0x2F:Dropdown("Theme",{_0xD({67,104,101,99,107,32,105,116}),"Moon","Grass","Light","Dark"},1,function(_n)_0x2A:ApplyTheme(_n)end)
+_0x2F:Div("INFO",true)
+_0x2F:Button(_0xD({98,121,32,104,105,116,101,99,104,98,111,105,32,47,32,110,101,106,114,105,111}),_0x11.Colors.ROWBG,nil,_0x11.Colors.GRAY)
+_0x30:Div("UPDATE LOG")
+_0x30:Log({"STAR MY POST ! :D","> Realized that no reload works only with M9","> v1.1 - AR Instant now excludes,","> Ar's from fire rate slider. ","> v1.1 - Added priorities to fire rate features","> Uni - Ui QOL Update will finish tmw","> Uni - Ui More Qol","> Uni - Addded ScrollBar","> Uni - Fixed Buttons clipping out the menu","> Uni - user greeting plus fixed minimize menu","> reverted 1 updated fixing currently","> hi :p"},true)
+_0x2A:SettingsTab(function()_0x21=true _0x2A:Destroy()end)
+_0x2A:Init("Main",function()return _0xD({71,117,110,115,32,100,101,116,101,99,116,101,100,58,32}).._0x29()end)
+local _0x33=_0x06.Heartbeat:Connect(function()if _0x21 then _0x33:Disconnect()_0x08=false return end
+_0x04(function()local _c=_0x24.Character if _c then local _h=_c:FindFirstChild("Humanoid")if _h then if _h~=_0x25 then _0x25=_h _0x22=false end if _h.Health<=0 then _0x22=true elseif _0x22 and _h.Health>0 then _0x22=false end end end end)
+if not _0x22 and _0x14 then _0x04(function()local _cn={}local _bp=_0x24:FindFirstChild("Backpack")if _bp then _0x01(_cn,_bp)end if _0x24.Character then _0x01(_cn,_0x24.Character)end
+for _,_ct in _0x03(_cn)do for _,_t in _0x03(_ct:GetChildren())do
+if _t.Name=="Remington 870"then _t:SetAttribute("AutoFire",_0x19)end
+if _0x1A and _0x23[_t.Name]then _t:SetAttribute("FireRate",0.001)end
+if _0x1B and _t.Name=="M9"then _t:SetAttribute("AutoFire",true)end
+if _0x28(_t)then for _a,_fn in _0x02(_0x27)do if _t:GetAttribute(_a)~=nil then local _v=_fn(_t)if _v then _t:SetAttribute(_a,_v)end end end end
+end end end)end end)
+while not _0x21 do task.wait(1)end _0x08=false
