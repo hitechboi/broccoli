@@ -45,7 +45,7 @@ _0x2C:Toggle("Apply Fire Rate",false,function(_s)_0x17=_s end,"Toggles FireRate 
 _0x2C:Slider("Fire Rate",0.1,1.0,0.1,function(_v)_0x1F=_v end,true,"Lower = faster fire")
 _0x2C:Div("EXTRAS",true)
 _0x2C:Toggle("Instant Fire Rate",false,function(_s)_0x18=_s end,"Insta FireRate!!!")
-_0x2C:Toggle("Shotgun Full Auto",false,function(_s)_0x19=_s end,"Toggles AutoFire on Remington 870")
+_0x2C:Toggle("Shotgun Full Auto",false,function(_s)_0x19=_s end,"Toggles AutoFire on Remington 870(Requires firerate slider)")
 _0x2C:Toggle("AR Instant Fire Rate",false,function(_s)_0x1A=_s end,"Instant fire for AK-47, MP5, FAL, M4A1")
 _0x2C:Toggle("M9 Full Auto",false,function(_s)_0x1B=_s end,"Toggles AutoFire on M9 pistol")
 _0x2C:Div("RANGE",true)
