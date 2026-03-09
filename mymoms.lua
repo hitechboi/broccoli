@@ -63,9 +63,6 @@ local ATTRS = {
     CurrentAmmo = function() return infiniteAmmo and ammoVal end,
     ReloadTime  = function() return instantReload and reloadVal end,
     FireRate    = function(tool)
-        if (shotgunAuto and tool.Name == "Remington 870") or (m9FullAuto and tool.Name == "M9") then
-            return nil
-        end
         if instantFire then return 0.001 end
         if fastFire then
             if arInstantFire and AR_NAMES[tool.Name] then return nil end
@@ -192,7 +189,7 @@ updates:Log({
 	"> Uni - Addded ScrollBar",
 	"> Uni - Fixed Buttons clipping out the menu",
 	"> Uni - user greeting plus fixed minimize menu",
-	"> v1.2 - Full auto's are now independent",
+	"> reverted 1 updated fixing currently",
     "> hi :p"
 }, true)
 
