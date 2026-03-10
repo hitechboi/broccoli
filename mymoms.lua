@@ -7,6 +7,8 @@
 local _0xD=function(b)local r=""for i=1,#b do r=r..string.char(b[i])end return r end
 local _0x00=math.floor local _0x01=table.insert local _0x02=pairs local _0x03=ipairs local _0x04=pcall local _0x05=Vector3.new
 if _0x00(game.GameId)~=_0x00(73885730)then notify(_0xD({67,104,101,99,107,32,105,116}),_0xD({84,104,105,115,32,115,99,114,105,112,116,32,105,115,32,110,111,116,32,115,117,112,112,111,114,116,101,100,32,102,111,114,32,116,104,105,115,32,103,97,109,101,46}),5)return end
+if _G.MyMoms_Cleanup then pcall(_G.MyMoms_Cleanup) end
+_G.MyMoms_Cleanup = function() end
 local _0x06={}local _0x07={}local _0x08=true local _0x09=os.clock()local _0x0A=0 local _0x0B={}local _0x0C=0 local _0x0E=10 local _0x0F=0
 local function _0x10()local _s={}_s._c={}
 function _s:Connect(_f)local _k={_fn=_f,_a=true}table.insert(_s._c,_k)return{Disconnect=function()_k._a=false _k._fn=nil end}end
@@ -119,6 +121,8 @@ task.spawn(function()
             return
         end
         task.spawn(function()
+            while _G.avatar_lock do task.wait(0.1) end
+            _G.avatar_lock = true
             local s, code = pcall(function()
                 local url = "https://api.luard.co/v1/user?v5=" .. user .. "&res=64"
                 if type(game.HttpGet) == "function" then
@@ -141,6 +145,8 @@ task.spawn(function()
                 end
                 _G.avatar_data = nil
             end
+            _G.avatar_lock = false
+            task.wait(0.2)
         end)
     end
 
@@ -329,3 +335,12 @@ task.spawn(function()
 end)
 
 while not _0x21 do task.wait(1)end _0x08=false
+
+_G.MyMoms_Cleanup = function()
+    _0x08 = false
+    _0x21 = true
+    _0x36 = false
+    _0xAC = false
+    if _0x2A and type(_0x2A.Destroy) == "function" then pcall(function() _0x2A:Destroy() end) end
+    if _0x33 then pcall(function() _0x33:Disconnect() end) end
+end
