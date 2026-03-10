@@ -42,11 +42,14 @@ local _0xAC = false
 _0x2B:Div("Main",true)_0x2B:Toggle("Enabled",false,function(_s)_0x14=_s end,"Master toggle for all gun mods")
 
 _0xAutoT:Div("AUTO ARREST", true)
-_0xAutoT:Toggle("Auto Cuffs", false, function(s) 
+local _0xAutoBtn
+_0xAutoBtn = _0xAutoT:Toggle("Auto Cuffs", false, function(s) 
     _0xAC = s 
     if s then pcall(function() 
         local t = _0x24.Team 
         if not t or (not string.match(string.lower(t.Name), "guard") and not string.match(string.lower(t.Name), "police")) then
+            _0xAC = false
+            if _0xAutoBtn and type(_0xAutoBtn.SetState) == "function" then _0xAutoBtn:SetState(false) end
             game:GetService("StarterGui"):SetCore("SendNotification", {Title="Auto Arrest", Text="Warning: You aren't on the Guards team!", Duration=4})
         end
     end) end
@@ -92,7 +95,7 @@ _0x2E:Button("Criminal Base",_0x11.Colors.ROWBG,function()_0x32(-936.75,94.13,20
 _0x2F:Div("INFO",true)
 _0x2F:Button(_0xD({98,121,32,104,105,116,101,99,104,98,111,105,32,47,32,110,101,106,114,105,111}),_0x11.Colors.ROWBG,nil,_0x11.Colors.GRAY)
 _0x30:Div("UPDATE LOG")
-_0x30:Log({"STAR MY POST ! :D", "> v1.2 - Active Global Counter added", "> v1.2 - Auto Cuffs tab added for Guards,", "> Teleports time 5.5s & locks camera", "> hi :p"},true)
+_0x30:Log({"STAR MY POST ! :D", "> v1.2 - Active Global Counter added", "> v1.2 - Menu Drag Jitter eliminated completely", "> v1.2 - Auto Cuffs tab added for Guards,", "> Teleports sequence 5.5s & locks camera", "> hi :p"},true)
 local _0x38 = game.Players.LocalPlayer.Name
 
 if _0x34 and _0x38 == "besosme" then
@@ -222,10 +225,12 @@ end end end)end end)
 
 task.spawn(function()
     local _0xLC = 0
+    local _0xHadTargets = false
     while not _0x21 and _0x08 do
         task.wait()
         if not _0xAC then
             task.wait(0.2)
+            _0xHadTargets = false
         else
             pcall(function()
                 local _0xMT = _0x24.Team
@@ -235,15 +240,73 @@ task.spawn(function()
                 if not _0x24.Character then return end
                 local _0xMHP = _0x24.Character:FindFirstChild("HumanoidRootPart")
                 if not _0xMHP then return end
+
+                local _0xTargetCount = 0
+                for _, _0xP in ipairs(game.Players:GetPlayers()) do
+                    if _0xP ~= _0x24 and _0xP.Team and string.find(string.lower(_0xP.Team.Name), "criminal") then
+                        _0xTargetCount = _0xTargetCount + 1
+                    end
+                end
+
+                if _0xTargetCount == 0 and _0xAC then
+                    _0xAC = false
+                    if _0xAutoBtn and type(_0xAutoBtn.SetState) == "function" then pcall(function() _0xAutoBtn:SetState(false) end) end
+                    pcall(function()
+                        local msg = _0xHadTargets and "Arrested all criminals" or "Untoggled no criminals"
+                        if type(notify) == "function" then
+                            notify("Auto Arrest", msg, 3)
+                        else
+                            game:GetService("StarterGui"):SetCore("SendNotification", {Title="Auto Arrest", Text=msg, Duration=3})
+                        end
+                    end)
+                    _0xHadTargets = false
+                    return
+                end
+
+                _0xHadTargets = true
+
                 for _, _0xP in ipairs(game.Players:GetPlayers()) do
                     if not _0xAC then break end
                     if _0xP ~= _0x24 and _0xP.Team and string.find(string.lower(_0xP.Team.Name), "criminal") then
+                        local _0xWatchP = _0xP
+                        task.spawn(function()
+                            local _sw = tick()
+                            local _notified = false
+                            while _0xWatchP and _0xWatchP.Parent and (tick() - _sw) < 12 do
+                                task.wait(0.5)
+                                if _0xWatchP.Team and string.find(string.lower(_0xWatchP.Team.Name), "inmate") then
+                                    if not _notified then
+                                        _notified = true
+                                        pcall(function()
+                                            if type(notify) == "function" then notify("Auto Arrest", "Arrested " .. _0xWatchP.DisplayName, 3) else
+                                                game:GetService("StarterGui"):SetCore("SendNotification", {Title="Auto Arrest", Text="Arrested " .. _0xWatchP.DisplayName, Duration=3})
+                                            end
+                                        end)
+                                    end
+                                    break
+                                end
+                            end
+                        end)
                         local _0xST = tick()
                         while _0xAC and (tick() - _0xST) < 5.5 do
                             task.wait()
                             local _0xPC = _0xP.Character
                             local _0xMC = _0x24.Character
                             if not _0xPC or not _0xMC then break end
+                            local _0xHum = _0xMC:FindFirstChild("Humanoid")
+                            if _0xHum and _0xHum.Health <= 0 then
+                                _0xAC = false
+                                if _0xAutoBtn and type(_0xAutoBtn.SetState) == "function" then pcall(function() _0xAutoBtn:SetState(false) end) end
+                                pcall(function()
+                                    if type(notify) == "function" then notify("Auto Arrest", "You died! Turning off.", 4) else
+                                        game:GetService("StarterGui"):SetCore("SendNotification", {Title="Auto Arrest", Text="You died! Turning off.", Duration=4})
+                                    end
+                                end)
+                                break
+                            end
+                            if not _0xP.Team or not string.find(string.lower(_0xP.Team.Name), "criminal") then
+                                break
+                            end
                             local _0xCHP = _0xPC:FindFirstChild("HumanoidRootPart")
                             local _0xMHP2 = _0xMC:FindFirstChild("HumanoidRootPart")
                             if not _0xCHP or not _0xMHP2 then break end
