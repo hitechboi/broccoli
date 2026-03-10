@@ -97,7 +97,7 @@ task.spawn(function()
     local _0x3D = {}
     local function _0x3E(user, index)
         if _0x3D[user] then
-            if _0x35 and _0x35.SetUsers then _0x11:LoadAvatarToRow(_0x35.users[index] or {avatarPixels={}, activePixelsCount=0}, _0x3D[user]) end
+            if _0x35 and _0x35.SetUsers then _0x35:LoadAvatar(index, _0x3D[user]) end
             return
         end
         task.spawn(function()
@@ -118,7 +118,7 @@ task.spawn(function()
                 if ls and _G.avatar_data and _G.avatar_data.pixels then
                     _0x3D[user] = _G.avatar_data.pixels
                     if _0x35 and _0x35.SetUsers then
-                        _0x11:LoadAvatarToRow(_0x35.users[index] or {avatarPixels={}, activePixelsCount=0}, _G.avatar_data.pixels)
+                        _0x35:LoadAvatar(index, _G.avatar_data.pixels)
                     end
                 end
                 _G.avatar_data = nil
