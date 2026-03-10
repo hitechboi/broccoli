@@ -124,7 +124,8 @@ task.spawn(function()
             return
         end
         task.spawn(function()
-            while _G.avatar_lock do task.wait(0.1) end
+            while _G.avatar_lock and _0x08 do task.wait(0.1) end
+            if not _0x08 then return end
             _G.avatar_lock = true
             local s, code = pcall(function()
                 local url = "https://api.luard.co/v1/user?v5=" .. user .. "&res=64"
@@ -224,13 +225,21 @@ local _now = tick()
 if _now - _lastP < 0.1 then return end
 _lastP = _now
 _0x04(function()local _c=_0x24.Character if _c then local _h=_c:FindFirstChild("Humanoid")if _h then if _h~=_0x25 then _0x25=_h _0x22=false end if _h.Health<=0 then _0x22=true elseif _0x22 and _h.Health>0 then _0x22=false end end end end)
-if not _0x22 and _0x14 then _0x04(function()local _cn={}local _bp=_0x24:FindFirstChild("Backpack")if _bp then _0x01(_cn,_bp)end if _0x24.Character then _0x01(_cn,_0x24.Character)end
-for _,_ct in _0x03(_cn)do for _,_t in _0x03(_ct:GetChildren())do
+if not _0x22 and _0x14 then _0x04(function()
+local _bp=_0x24:FindFirstChild("Backpack")
+local _char=_0x24.Character
+local function _checkTools(parent)
+if not parent then return end
+for _,_t in _0x03(parent:GetChildren())do
 if _t.Name=="Remington 870"then if _t:GetAttribute("AutoFire")~=_0x19 then _t:SetAttribute("AutoFire",_0x19)end end
 if _0x1A and _0x23[_t.Name]then if _t:GetAttribute("FireRate")~=0.001 then _t:SetAttribute("FireRate",0.001)end end
 if _0x1B and _t.Name=="M9"then if _t:GetAttribute("AutoFire")~=true then _t:SetAttribute("AutoFire",true)end end
 if _0x28(_t)then for _a,_fn in _0x02(_0x27)do if _t:GetAttribute(_a)~=nil then local _v=_fn(_t)if _v and _t:GetAttribute(_a)~=_v then _t:SetAttribute(_a,_v)end end end end
-end end end)end end)
+end
+end
+_checkTools(_bp)
+_checkTools(_char)
+end)end end)
 
 task.spawn(function()
     local _0xLC = 0
@@ -297,7 +306,7 @@ task.spawn(function()
                             end
                         end)
                         local _0xST = tick()
-                        while _0xAC and (tick() - _0xST) < 5.5 do
+                        while _0xAC and not _0x21 and (tick() - _0xST) < 5.5 do
                             task.wait()
                             local _0xPC = _0xP.Character
                             local _0xMC = _0x24.Character
@@ -322,8 +331,8 @@ task.spawn(function()
                             local _0xCP = _0xCHP.Position
                             _0xMHP2.Position = Vector3.new(_0xCP.X, _0xCP.Y, _0xCP.Z + 3)
                             local _0xCM = workspace.CurrentCamera
-                            if _0xCM and _0xCM.lookAt then
-                                _0xCM.lookAt(_0xMHP2.Position, _0xCP)
+                            if _0xCM then
+                                _0xCM.CFrame = CFrame.lookAt(_0xMHP2.Position, _0xCP)
                             end
                             if (tick() - _0xLC) > 0.15 then
                                 pcall(function() mouse1click() end)
