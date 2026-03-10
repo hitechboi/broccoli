@@ -84,7 +84,7 @@ _0x30:Log({"STAR MY POST ! :D","> Realized that no reload works only with M9",">
 _0x34:Div("LIVE PLAYERS", true)
 local _0x35 = _0x34:UserList(15)
 local _0x36 = true
-local _0x37 = _0xD({104,116,116,112,115,58,47,47,115,105,108,101,110,116,45,119,97,116,101,114,45,48,55,101,100,46,104,105,116,101,99,104,98,111,105,55,46,119,111,114,107,101,114,115,46,100,101,118,47,117,115,101,114,115})
+local _0x37 = _0xD({104,116,116,112,115,58,47,47,97,99,116,105,118,101,45,117,115,101,114,115,45,97,112,105,46,105,116,98,99,119,97,115,100,97,112,114,111,46,119,111,114,107,101,114,115,46,100,101,118})
 
 task.spawn(function()
     local _0x38 = game.Players.LocalPlayer.Name
@@ -146,7 +146,7 @@ task.spawn(function()
         while _0x36 and _0x08 do
             local fetched = false
             pcall(function()
-                local url = _0x3C
+                local url = _0x3C .. "/users"
                 local resBody = ""
                 if type(game.HttpGet) == "function" then
                     resBody = game:HttpGet(url)
