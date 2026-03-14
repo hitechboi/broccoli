@@ -7,7 +7,7 @@
 local _h = pcall
 local _g = ipairs
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/checkitv2/refs/heads/main/broccoli.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/checkitv2/refs/heads/main/brocoli.lua"))()
 repeat task.wait() until _G.UILib
 local UILib = _G.UILib
 
