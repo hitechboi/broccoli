@@ -6,14 +6,11 @@
 ]]
 local _h = pcall
 local _g = ipairs
-
 loadstring(game:HttpGet("https://raw.githubusercontent.com/hitechboi/checkitv2/refs/heads/main/brocoli.lua"))()
 repeat task.wait() until _G.UILib
 local UILib = _G.UILib
-
 local gameName = getgamename()
 local user = game.Players.LocalPlayer.Name
-
 local infStamina = false
 local infCombatStamina = false
 local sanityLock = false
@@ -23,12 +20,9 @@ local espMaxDist = 200
 local staminaRegen = 0.7
 local staminaRegenEnabled = false
 local destroyed = false
-
 local win = UILib.Window("Check it", "Interface", gameName)
-
 local stamina = win:Tab("Player")
 local esp = win:Tab("Esp")
-
 stamina:Div("STAMINA", true)
 stamina:Toggle("Infinite Stamina", false, function(s) infStamina = s end, "Locks Stamina at 100")
 stamina:Toggle("Infinite Combat Stamina", false, function(s) infCombatStamina = s end, "Locks CombatStamina at 100")
@@ -37,11 +31,9 @@ stamina:Toggle("Max Clash Strength", false, function(s) maxClashStrength = s end
 stamina:Div("REGEN", true)
 stamina:Toggle("Apply Stamina Regen", false, function(s) staminaRegenEnabled = s end, "Enables StaminaRegen slider")
 stamina:Slider("Stamina Regen", 0.7, 15, 0.7, function(v) staminaRegen = v end, true, "Sets StaminaRegen value")
-
 esp:Div("ITEMS", true)
 esp:Toggle("Scrap", false, function(s) scrapEsp = s end, "Shows ESP labels on ScrapNormal items")
 esp:Slider("Render Distance", 50, 5000, 200, function(v) espMaxDist = math.floor(v) end, false, "Max distance to show ESP")
-
 win:SettingsTab(function()
     destroyed = true
     win:Destroy()
@@ -60,7 +52,6 @@ end
 
 local espTimer = 0
 local espColorTimer = 0
-
 while not destroyed do
     task.wait(0.01)
     _h(function()
